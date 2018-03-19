@@ -10,7 +10,10 @@ then scan QR code
 ```sh
 npm run ios
 ```
-
+or 
+```sh
+react-native run-ios
+```
 
 
 
