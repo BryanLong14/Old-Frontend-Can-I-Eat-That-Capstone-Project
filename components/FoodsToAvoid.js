@@ -3,17 +3,24 @@ import { View, Text} from 'react-native';
 import axios from 'axios';
 
 class FoodsToAvoid extends Component {
-    componentWillMount(){
-        axios.get('https://can-i-eat-that-api.herokuapp.com/api/foods/')
-            .then(response => console.log("response from API call: ", response))
-    }
-    render(){
-        return (
-        <View>
-            <Text>FoodsToAvoid</Text>
-        </View>
-        );
-    }  
+  state = { foods: [] };
+
+  componentWillMount() {
+    axios.get("https://can-i-eat-that-api.herokuapp.com/api/foods/")
+    .then(response => this.setState({ foods: response.data }));
+  }
+
+  renderFoods() {
+    return this.state.foods.map(food => <Text>{food.name}</Text>);
+  }
+
+  render() {
+    return (
+      <View>
+        {this.renderFoods()}
+      </View>
+    );
+  }
 }
 
 export default FoodsToAvoid;
