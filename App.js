@@ -5,7 +5,8 @@ import {
   Text,
   View
 } from 'react-native';
-import Header from './components/header'
+import Header from './components/header';
+import FoodsToAvoid from './components/FoodsToAvoid';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -14,33 +15,32 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
-export default class App extends Component<Props> {
+// type Props = {};
+export default class App extends Component
+// <Props> 
+{
   render() {
-    return <View style={styles.container}>
-        <Header />
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>;
-  }
+    return <View>
+        <Header headerText="Can I Eat That?" />
+        <FoodsToAvoid />
+      </View>
+      }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center"
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: "center",
+//     margin: 10
+//   },
+//   instructions: {
+//     textAlign: "center",
+//     color: "#333333",
+//     marginBottom: 5
+//   }
+// });
