@@ -1,6 +1,6 @@
 # _Can I Eat That?_ Frontend Readme
 
-## Run on iPhone
+## Run on iPhone via Expo
 ```sh
 npm run 
 ```
