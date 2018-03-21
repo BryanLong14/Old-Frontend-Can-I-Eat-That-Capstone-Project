@@ -22,7 +22,9 @@ class FoodsToAvoid extends Component {
   };
 
   renderFoods = () => {
-    return this.state.foods.map(food => <Text key={food.name}>{food.name}</Text>);
+    console.log("this.state: ", this.state);
+    return this.state.foods.map(food => 
+    <Text key={food.name}>{food.name}</Text>)
   };
 
   render() {
