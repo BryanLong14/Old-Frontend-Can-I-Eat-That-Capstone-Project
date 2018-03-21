@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import Header from './components/header';
+import Header from './components/Header';
 import FoodsToAvoid from './components/FoodsToAvoid';
 
 export default class App extends Component{

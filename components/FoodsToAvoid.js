@@ -11,7 +11,7 @@ class FoodsToAvoid extends Component {
   }
 
   renderFoods() {
-    return this.state.foods.map(food => <Text>{food.name}</Text>);
+    return this.state.foods.map(food => <Text key={food.name}>{food.name}</Text>);
   }
 
   render() {
