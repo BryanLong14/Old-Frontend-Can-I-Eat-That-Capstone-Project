@@ -25,10 +25,10 @@ class FoodsToAvoid extends Component {
 
   renderFoods = () => {
     console.log("this.state: ", this.state);
-    return this.state.foods.map(food => <View>
-        <Text key={food.name}>{food.name}</Text>
-        <Toggles key={food.id} />
-      </View>);
+    return this.state.foods.map(food => <View key={food.id} style={styles.container}>
+        <Text>{food.name}</Text>
+        <Toggles />
+       </View>);
   };
 
   render() {
@@ -41,3 +41,16 @@ class FoodsToAvoid extends Component {
 }
 
 export default FoodsToAvoid;
+
+const styles = StyleSheet.create({
+    container: {
+      padding: 10,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      elevation: 2
+    },
+    foodsLabel : {
+      fontSize: 20
+  }
+})

@@ -12,15 +12,7 @@ setTheme({
 });
 
 
-const styles = Object.assign(
-  {},
-  StyleSheet.create({
-    toggleText: {
-      fontSize: 16,
-      fontStyle: "italic",
-      fontWeight: "bold",
-      color: "#616161"
-    },
+const styles = StyleSheet.create({
     row: {
       flexDirection: "row",
       alignItems: "center",
@@ -39,7 +31,6 @@ const styles = Object.assign(
       fontWeight: "300"
     }
   })
-);
 
 class Toggles extends Component {
   constructor() {
