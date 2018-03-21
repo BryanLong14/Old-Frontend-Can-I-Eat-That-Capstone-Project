@@ -44,11 +44,7 @@ export default FoodsToAvoid;
 
 const styles = StyleSheet.create({
     container: {
-      padding: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      elevation: 2
+      padding: 10
     },
     foodsLabel : {
       fontSize: 20
