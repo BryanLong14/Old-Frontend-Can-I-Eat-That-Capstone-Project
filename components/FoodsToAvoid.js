@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text} from 'react-native';
+import { View, Text, StyleSheet } from "react-native";
 import axios from 'axios';
+import Toggles from './Toggles'
 const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
+
 
 class FoodsToAvoid extends Component {
   constructor(props) {
@@ -23,8 +25,10 @@ class FoodsToAvoid extends Component {
 
   renderFoods = () => {
     console.log("this.state: ", this.state);
-    return this.state.foods.map(food => 
-    <Text key={food.name}>{food.name}</Text>)
+    return this.state.foods.map(food => <View>
+        <Text key={food.name}>{food.name}</Text>
+        <Toggles key={food.id} />
+      </View>);
   };
 
   render() {
