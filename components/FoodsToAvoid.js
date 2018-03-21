@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import { View, Text} from 'react-native';
 import axios from 'axios';
+const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
 
 class FoodsToAvoid extends Component {
-  state = { foods: [] };
+  constructor(props) {
+    super(props);
+      this.state = {
+        foods: []
+      }
+    }
 
-  componentWillMount() {
-    axios.get("https://can-i-eat-that-api.herokuapp.com/api/foods/")
-    .then(response => this.setState({ foods: response.data }));
-  }
+  componentDidMount = () => {
+    this.initData();
+  };
 
-  renderFoods() {
+  initData = () => {
+    axios.get(API)
+    .then(response => this.setState({ foods: response.data }))
+    .catch(err => console.error(err));
+  };
+
+  renderFoods = () => {
     return this.state.foods.map(food => <Text key={food.name}>{food.name}</Text>);
-  }
+  };
 
   render() {
     return (
