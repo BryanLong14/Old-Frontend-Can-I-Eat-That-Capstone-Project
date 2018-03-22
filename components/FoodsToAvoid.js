@@ -27,10 +27,16 @@ class FoodsToAvoid extends Component {
   deleteItem = (id) => {
     console.log("deleted item", this.state.foods, API + id);
     axios
-      .delete(`${API + id}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify })
+      .delete(`${API + id}`, { 
+        headers: { "Content-Type": "application/json" }, 
+        body: JSON.stringify })
       .catch(err => console.error(err))
       .then(this.initData)
   };
+
+  addItem = () => {
+
+  }
 
   renderFoods = () => {
     console.log("this.state: ", this.state);
