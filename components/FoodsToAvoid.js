@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { MKSwitch, MKButton, MKColor, MKTextField, setTheme } from "react-native-material-kit";
+import { MKSwitch, MKButton, MKColor, MKSpinner, MKTextField, setTheme } from "react-native-material-kit";
+// import GoShoppingModal from "./GoShoppingModal";
 import axios from "axios";
 
 const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
@@ -31,12 +32,16 @@ const GoShoppingButton = MKButton.coloredButton()
   })
   .build();
 
+const SingleColorSpinner = MKSpinner.singleColorSpinner()
+  .build();
+
 class FoodsToAvoid extends Component {
   constructor(props) {
     super(props);
     this.state = {
       foods: [],
-      textInput: ""
+      textInput: "",
+      modalVisible: false
     };
   }
 
@@ -74,20 +79,25 @@ class FoodsToAvoid extends Component {
   };
 
   shopForFood = () => {
-    console.log("THIS STATE FOODS: ", this.state.foods)
+    this.setState({ modalVisible: true });
+    console.log("THIS STATE FOODS: ", this.state.foods);
+    // return <GoShoppingModal />;
   };
+
 
   renderFoods = () => {
     return <View>
-          <Textfield style={styles.textfield} onChangeText={text => this.setState({ textInput: text })} />
-          <AddFoodButton onPress={() => this.submitFoodToAPI()} style={styles.RaisedButton} />
-          {this.state.foods.map(food => <View key={food.id} style={styles.card}>
-              <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
-              <View style={styles.toggleRow}>
-                <Text style={styles.removeText}>Remove from list</Text>
-                <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
-              </View>
-            </View>)}
+        <Textfield style={styles.textfield} onChangeText={text => this.setState({ textInput: text })} />
+        <AddFoodButton onPress={() => this.submitFoodToAPI()} style={styles.RaisedButton} />
+        {/* Get the ternary operator here working to display a progress loading spinner */}
+        {this.state.foods ? this.state.foods.map(food => <View key={food.id} style={styles.card}>
+            <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
+            <View style={styles.toggleRow}>
+              <Text style={styles.removeText}>Remove from list</Text>
+              <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
+            </View>
+          </View>) : <Text>"Loading"</Text>
+          }
         <GoShoppingButton onPress={() => this.shopForFood()} style={styles.RaisedBottomButton} />
       </View>;
   };
