@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { MKSwitch, MKColor, setTheme } from "react-native-material-kit";
+import { MKSwitch, MKButton, MKColor, MKTextField, setTheme } from "react-native-material-kit";
 import axios from "axios";
 
 const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
+
+// const Textfield = MKTextField.textfield()
+//   .withPlaceholder("Text...")
+//   .withStyle(styles.textfield)
+//   .withTextInputStyle({ flex: 1 })
+//   .build();
+
+const ColoredRaisedButton = MKButton.coloredButton()
+  .withText("Add Food to Avoid")
+  .withTextStyle({
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center"
+  })
+  .withOnPress(() => {
+    console.log("Hi, it's a colored button!")
+      axios.create(API)
+      .catch(err => console.error(err));
+  })
+  .build();
+  
 
 class FoodsToAvoid extends Component {
   constructor(props) {
@@ -31,28 +53,31 @@ class FoodsToAvoid extends Component {
         headers: { "Content-Type": "application/json" }, 
         body: JSON.stringify })
       .catch(err => console.error(err))
-      .then(this.initData)
+      .then(this.initData())
   };
-
-  addItem = () => {
-
-  }
-
+  
+button = () => {
+ return <ColoredRaisedButton style={styles.addFoodButton} />;
+}
+  
   renderFoods = () => {
-    console.log("this.state: ", this.state);
-    return this.state.foods.map(food => <View key={food.id} style={styles.card}>
+    return <View>
+    {this.button()}
+    {this.state.foods.map(food => <View key={food.id} style={styles.card}>
         <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
         <View style={styles.toggleRow}>
           <Text style={styles.removeText}>Remove from list</Text>
-          <MKSwitch checked={true} 
-          onPress={() => this.deleteItem(food.id)} 
-          />
+          <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
         </View>
-      </View>);
-  };
+      </View>
+      )}
+      </View>
+    };
 
   render() {
-    return <View>{this.renderFoods()}</View>;
+    return <View>
+        {this.renderFoods()}
+      </View>;
   }
 }
 
@@ -63,8 +88,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: "#d6d7da",
-    margin: 5,
+    margin: 10,
+    borderRadius: 20
+  },
+  addFoodButton: {
+    margin: 10,
+    marginTop: 20,
+    padding: 25,
     borderRadius: 20,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: .7,
+    shadowColor: "black"
   },
   toggleRow: {
     flexDirection: "row",
@@ -72,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   foodsLabel: {
-    paddingTop: 15,
+    paddingTop: 10,
     fontSize: 20,
     textAlign: "center"
   },
@@ -88,7 +123,7 @@ const styles = StyleSheet.create({
 
 //// customize the material design theme
 setTheme({
-  primaryColor: MKColor.Purple,
-  primaryColorRGB: MKColor.RGBPurple,
+  primaryColor: MKColor.Indigo,
+  primaryColorRGB: MKColor.RGBIndigo,
   accentColor: MKColor.Amber
 });
