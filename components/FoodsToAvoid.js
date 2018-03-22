@@ -5,11 +5,10 @@ import axios from "axios";
 
 const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
 
-// const Textfield = MKTextField.textfield()
-//   .withPlaceholder("Text...")
-//   .withStyle(styles.textfield)
-//   .withTextInputStyle({ flex: 1 })
-//   .build();
+const Textfield = MKTextField.textfield()
+  .withPlaceholder("Add Food Here...")
+  .withTextInputStyle({ flex: 1 })
+  .build();
 
 const ColoredRaisedButton = MKButton.coloredButton()
   .withText("Add Food to Avoid")
@@ -20,9 +19,9 @@ const ColoredRaisedButton = MKButton.coloredButton()
     textAlign: "center"
   })
   .withOnPress(() => {
-    console.log("Hi, it's a colored button!")
-      axios.create(API)
-      .catch(err => console.error(err));
+    console.log("Hi, you pressed the colored button!")
+    // axios.create(API)
+    // .catch(err => console.error(err));
   })
   .build();
   
@@ -46,38 +45,41 @@ class FoodsToAvoid extends Component {
       .catch(err => console.error(err));
   };
 
-  deleteItem = (id) => {
+  deleteItem = id => {
     console.log("deleted item", this.state.foods, API + id);
     axios
-      .delete(API + id, { 
-        headers: { "Content-Type": "application/json" }, 
-        body: JSON.stringify })
+      .delete(API + id, {
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify
+      })
       .catch(err => console.error(err))
-      .then(this.initData())
+      .then(this.initData());
   };
-  
-button = () => {
- return <ColoredRaisedButton style={styles.addFoodButton} />;
-}
-  
+
+  addFoodsToAvoidButton = () => {
+    return <ColoredRaisedButton style={styles.addFoodButton} />;
+  };
+
+  Textfield = () => {
+    return <Textfield style={styles.textfield} />;
+  }
+
   renderFoods = () => {
     return <View>
-    {this.button()}
-    {this.state.foods.map(food => <View key={food.id} style={styles.card}>
-        <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
-        <View style={styles.toggleRow}>
-          <Text style={styles.removeText}>Remove from list</Text>
-          <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
-        </View>
-      </View>
-      )}
-      </View>
-    };
+        {this.Textfield()}
+        {this.addFoodsToAvoidButton()}
+        {this.state.foods.map(food => <View key={food.id} style={styles.card}>
+            <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
+            <View style={styles.toggleRow}>
+              <Text style={styles.removeText}>Remove from list</Text>
+              <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
+            </View>
+          </View>)}
+      </View>;
+  };
 
   render() {
-    return <View>
-        {this.renderFoods()}
-      </View>;
+    return <View>{this.renderFoods()}</View>;
   }
 }
 
@@ -91,6 +93,16 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 20
   },
+  raisedButtonStyle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center"
+  },
+  textfield: {
+    height: 28,
+    marginTop: 32
+  },
   addFoodButton: {
     margin: 10,
     marginTop: 20,
@@ -98,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: .7,
+    shadowOpacity: 0.7,
     shadowColor: "black"
   },
   toggleRow: {
