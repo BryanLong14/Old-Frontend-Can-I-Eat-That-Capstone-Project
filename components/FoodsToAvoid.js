@@ -24,15 +24,12 @@ class FoodsToAvoid extends Component {
       .catch(err => console.error(err));
   };
 
-  // This function is not working. How to add the "id" param??
   deleteItem = (id) => {
-    console.log("deleted item", this.state.foods);
+    console.log("deleted item", this.state.foods, API + id);
     axios
-      .delete(API + { params: { id: id } })
-      .then(response => response.text())
-      // .then(this.initData)
-      .catch(err => console.error(err));
-
+      .delete(`${API + id}`, { headers: { "Content-Type": "application/json" }, body: JSON.stringify })
+      .catch(err => console.error(err))
+      .then(this.initData)
   };
 
   renderFoods = () => {
@@ -42,8 +39,7 @@ class FoodsToAvoid extends Component {
         <View style={styles.toggleRow}>
           <Text style={styles.removeText}>Remove from list</Text>
           <MKSwitch checked={true} 
-          onPress={this.deleteItem} 
-          // onCheckedChange={this.deleteItem} />
+          onPress={() => this.deleteItem(food.id)} 
           />
         </View>
       </View>);
