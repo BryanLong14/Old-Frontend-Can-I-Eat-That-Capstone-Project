@@ -8,6 +8,7 @@ const API = "https://can-i-eat-that-api.herokuapp.com/api/foods/";
 const Textfield = MKTextField.textfield()
   .withPlaceholder("Add Food Here...")
   .withTextInputStyle({ flex: 1 })
+  .withTintColor(MKColor.Indigo)
   .build();
 
 const ColoredRaisedButton = MKButton.coloredButton()
@@ -18,11 +19,6 @@ const ColoredRaisedButton = MKButton.coloredButton()
     fontSize: 20,
     textAlign: "center"
   })
-  .withOnPress(() => {
-    console.log("Hi, you pressed the colored button!")
-    // axios.create(API)
-    // .catch(err => console.error(err));
-  })
   .build();
   
 
@@ -30,7 +26,8 @@ class FoodsToAvoid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      foods: []
+      foods: [],
+      textInput: ""
     };
   }
 
@@ -56,26 +53,33 @@ class FoodsToAvoid extends Component {
       .then(this.initData());
   };
 
-  addFoodsToAvoidButton = () => {
-    return <ColoredRaisedButton style={styles.addFoodButton} />;
+  submitFoodToAPI = () => {
+    console.log(this.state.textInput);
+    axios.post(API, { 
+      "name": this.state.textInput 
+    }).then(function(response) {
+        console.log(response);
+      })
+      .catch(err => console.log(err))
+      .then(this.initData());
   };
 
-  Textfield = () => {
-    return <Textfield style={styles.textfield} />;
-  }
-
   renderFoods = () => {
-    return <View>
-        {this.Textfield()}
-        {this.addFoodsToAvoidButton()}
-        {this.state.foods.map(food => <View key={food.id} style={styles.card}>
+    return (
+      <View>
+        <Textfield style={styles.textfield} onChangeText={text => this.setState({ textInput: text })} />
+        <ColoredRaisedButton onPress={() => this.submitFoodToAPI()} style={styles.addFoodButton} />
+        {this.state.foods.map(food => (
+          <View key={food.id} style={styles.card}>
             <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
             <View style={styles.toggleRow}>
               <Text style={styles.removeText}>Remove from list</Text>
               <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
             </View>
-          </View>)}
-      </View>;
+          </View>
+        ))}
+      </View>
+    );
   };
 
   render() {
@@ -100,13 +104,13 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   textfield: {
-    height: 28,
-    marginTop: 32
+    height: 50,
+    margin: 15
   },
   addFoodButton: {
-    margin: 10,
-    marginTop: 20,
-    padding: 25,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 15,
     borderRadius: 20,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
