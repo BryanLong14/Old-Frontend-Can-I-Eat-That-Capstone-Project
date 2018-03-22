@@ -11,7 +11,7 @@ const Textfield = MKTextField.textfield()
   .withTintColor(MKColor.Indigo)
   .build();
 
-const ColoredRaisedButton = MKButton.coloredButton()
+const AddFoodButton = MKButton.coloredButton()
   .withText("Add Food to Avoid")
   .withTextStyle({
     color: "white",
@@ -20,7 +20,16 @@ const ColoredRaisedButton = MKButton.coloredButton()
     textAlign: "center"
   })
   .build();
-  
+
+const GoShoppingButton = MKButton.coloredButton()
+  .withText("Go Shopping")
+  .withTextStyle({
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center"
+  })
+  .build();
 
 class FoodsToAvoid extends Component {
   constructor(props) {
@@ -43,7 +52,6 @@ class FoodsToAvoid extends Component {
   };
 
   deleteItem = id => {
-    console.log("deleted item", this.state.foods, API + id);
     axios
       .delete(API + id, {
         headers: { "Content-Type": "application/json" },
@@ -54,32 +62,34 @@ class FoodsToAvoid extends Component {
   };
 
   submitFoodToAPI = () => {
-    console.log(this.state.textInput);
-    axios.post(API, { 
-      "name": this.state.textInput 
-    }).then(function(response) {
+    axios
+      .post(API, {
+        name: this.state.textInput
+      })
+      .then(function(response) {
         console.log(response);
       })
       .catch(err => console.log(err))
       .then(this.initData());
   };
 
+  shopForFood = () => {
+    console.log("THIS STATE FOODS: ", this.state.foods)
+  };
+
   renderFoods = () => {
-    return (
-      <View>
-        <Textfield style={styles.textfield} onChangeText={text => this.setState({ textInput: text })} />
-        <ColoredRaisedButton onPress={() => this.submitFoodToAPI()} style={styles.addFoodButton} />
-        {this.state.foods.map(food => (
-          <View key={food.id} style={styles.card}>
-            <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
-            <View style={styles.toggleRow}>
-              <Text style={styles.removeText}>Remove from list</Text>
-              <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
-            </View>
-          </View>
-        ))}
-      </View>
-    );
+    return <View>
+          <Textfield style={styles.textfield} onChangeText={text => this.setState({ textInput: text })} />
+          <AddFoodButton onPress={() => this.submitFoodToAPI()} style={styles.RaisedButton} />
+          {this.state.foods.map(food => <View key={food.id} style={styles.card}>
+              <Text style={styles.foodsLabel}>{food.name.charAt(0).toUpperCase() + food.name.slice(1)}</Text>
+              <View style={styles.toggleRow}>
+                <Text style={styles.removeText}>Remove from list</Text>
+                <MKSwitch checked={true} onPress={() => this.deleteItem(food.id)} />
+              </View>
+            </View>)}
+        <GoShoppingButton onPress={() => this.shopForFood()} style={styles.RaisedBottomButton} />
+      </View>;
   };
 
   render() {
@@ -97,17 +107,21 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 20
   },
-  raisedButtonStyle: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "center"
-  },
   textfield: {
     height: 50,
     margin: 15
   },
-  addFoodButton: {
+  RaisedButton: {
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 15,
+    borderRadius: 20,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowColor: "black"
+  },
+  RaisedBottomButton: {
     marginLeft: 10,
     marginRight: 10,
     padding: 15,
